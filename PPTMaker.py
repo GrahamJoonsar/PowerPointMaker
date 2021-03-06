@@ -1,19 +1,18 @@
 from pptx import Presentation
-from PyDictionary import PyDictionary
+import wikipedia
 from simple_image_download import simple_image_download as simp
 from time import sleep
 
 userInput = ''
 topics = []
 response = simp.simple_image_download
-dictionary = PyDictionary()
 PPTName = input("Name of PowerPoint: ")
 
 print('Enter topics of slides: ')
 while userInput != 'q':
     userInput = input('Topic of slide ')
     if userInput != 'q':
-        topics.append([userInput, str(dictionary.meaning(userInput))])
+        topics.append([userInput, wikipedia.summary(userInput, sentences=3)])
         response().download(userInput , 1)
 
 
@@ -27,5 +26,4 @@ for topic in topics:
     sub = slide.placeholders[2]
     title.text = topic[0].title()
     sub.text = topic[1]
-
 prs.save(PPTName + '.pptx')
